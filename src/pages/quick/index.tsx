@@ -280,15 +280,17 @@ export default function Lending() {
   const doCalculatedQuickBorrow = async () => {
     console.log('doCalculatedQuickBorrow()');
 
-    const [rp1, rp2] = quickBorrowPreload();
-    rp1.depositAmount = parsedAmt.toString();
-    rp1.borrowAmount = nativeVal.toString();
-    rp2.depositAmount = nativeVal.toString();
-    rp2.borrowAmount = borrowVal.toString();
+    if (currentSilo && currentOutSilo && amount && amountOut) {
+      const [rp1, rp2] = quickBorrowPreload();
+      rp1.depositAmount = parsedAmt.toString();
+      rp1.borrowAmount = nativeVal.toString();
+      rp2.depositAmount = nativeVal.toString();
+      rp2.borrowAmount = borrowVal.toString();
 
-    console.log('router posistions:', rp1, rp2);
-
-    await quickBorrow(rp1, rp2);
+      await quickBorrow(rp1, rp2);
+    } else {
+      console.warn('silos not selected, or value not entered for collateral silo');
+    }
   };
 
   // no chain, no page
